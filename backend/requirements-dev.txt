@@ -1,0 +1,12 @@
+# Eye of Ender - development and test dependencies.
+# (FastAPI's TestClient uses httpx2, which requirements.txt already includes.)
+-r requirements.txt
+
+pytest==9.1.1
+ruff==0.17.2
+# writing sample Delta tables (tests, scripts/make_sample_data.py)
+deltalake==1.6.6
+pyarrow==26.0.0
+# making sample PDFs and Word files (tests, scripts/parser_bakeoff.py)
+reportlab==5.1.0
+python-docx==1.2.0

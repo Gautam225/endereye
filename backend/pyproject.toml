@@ -1,0 +1,21 @@
+# Tool settings for the backend. Dependencies live in requirements*.txt.
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "ASYNC", "RUF"]
+
+[tool.ruff.lint.isort]
+# The local `alembic/` migrations folder would otherwise make ruff treat the library as ours.
+known-third-party = ["alembic"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+# --tb=short: long tracebacks print function arguments, which would leak the DB password.
+addopts = "-ra --strict-markers --tb=short"
+markers = [
+    "db: needs the PostgreSQL test database (docs/ROADMAP.md, Step 1)",
+]

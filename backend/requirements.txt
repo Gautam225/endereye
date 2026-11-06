@@ -1,0 +1,52 @@
+# Eye of Ender - backend runtime dependencies.
+# Pinned to exact versions; each build step adds only what it needs.
+
+# Step 1 - web framework, settings, database
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+pydantic==2.14.1
+pydantic-settings==2.16.1
+sqlalchemy[asyncio]==2.1.6
+asyncpg==0.32.0
+alembic==1.20.1
+# reads numbered keys (OPENROUTER_API_KEY_1..N) from .env
+python-dotenv==1.2.4
+
+# Step 2 - LLM gateway (OpenRouter + Groq are OpenAI-compatible)
+openai==3.37.0
+# HTTP client used by the openai SDK; we catch its network errors directly
+httpx2==2.16.0
+
+# Step 3 - sign-in
+pyjwt==2.15.1
+pwdlib[argon2]==0.3.1
+email-validator==2.3.0
+
+# AES-GCM encryption of the passwords of external database connections (app/core/vault.py)
+cryptography==50.0.2
+
+# OCR: scanned pages, the words in charts, and image files are read on this server
+# (RapidOCR's models ship inside the package; pypdfium2 draws a PDF page as a picture).
+rapidocr-onnxruntime==1.4.4
+pypdfium2==5.14.0
+
+# Step 4 - spaces and data: DuckDB runs the SQL; sqlglot checks it; uploads are multipart
+duckdb==2.0.0
+sqlglot==30.24.0
+python-multipart==0.0.32
+
+# Step 5 - none. Step 6 - knowledge search
+# local embeddings and reranking on the CPU (ONNX; no API calls)
+fastembed==0.9.1
+# vector column type and HNSW index operators for PostgreSQL
+pgvector==0.5.1
+# true BM25 keyword ranking
+bm25s==0.3.15
+# documents (PDF, Word, PowerPoint, Excel, HTML) to Markdown. Docling is an optional
+# alternative (DOCUMENT_PARSER=docling, pip install docling); see the bake-off in ROADMAP.md
+markitdown[pdf,docx,pptx,xlsx]==0.1.9
+# Excel export of a result (also pulled in by markitdown's xlsx reader; pinned because we import it)
+openpyxl==3.1.5
+
+# PDF of a scheduled report (app/services/report_files.py)
+reportlab==5.1.0

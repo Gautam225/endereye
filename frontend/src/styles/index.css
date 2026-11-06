@@ -1,0 +1,435 @@
+@import "tailwindcss";
+
+/* Dark mode follows the data-theme attribute set in index.html and by ThemeProvider. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * Design tokens (see DESIGN.md). Components use only these, never raw colors.
+ * Text colors are checked for WCAG AA contrast against --bg, --surface and --surface-2 in every
+ * color template and both modes (src/lib/palettes.test.ts).
+ *
+ * A color template is the data-palette attribute (default, claude or chatgpt) and the mode is
+ * data-theme (light or dark), both set on <html> by index.html and ThemeProvider. Each template
+ * defines every token for both modes. The selectors name the attributes without :root, so a
+ * preview element carrying its own data-palette and data-theme shows that template exactly.
+ * A template with no card shadow sets --card-shadow to 0 0 #0000, never none: none would make
+ * the whole box-shadow list invalid and drop the rings (focus, selected) on the same element.
+ */
+:root,
+[data-palette="default"] {
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --surface-2: #f0f0ed;
+  --border: #e3e3df;
+  --border-strong: #cfcfca;
+  --text: #15171a;
+  --text-muted: #555d68;
+  --text-subtle: #656c78;
+  --accent: #0b7a6b;
+  --accent-fg: #ffffff;
+  --accent-soft: rgb(11 122 107 / 0.1);
+  --success: #147c3b;
+  --success-soft: rgb(20 124 59 / 0.1);
+  --warning: #9b5e07;
+  --warning-soft: rgb(155 94 7 / 0.1);
+  --danger: #c2261d;
+  --danger-soft: rgb(194 38 29 / 0.08);
+  --card-shadow: 0 1px 2px rgb(16 18 22 / 0.04), 0 1px 1px rgb(16 18 22 / 0.03);
+  /* Chart series: the accent first, then hues that stay apart from it and each other */
+  --chart-1: #0b7a6b;
+  --chart-2: #3552c9;
+  --chart-3: #c2540a;
+  --chart-4: #7a3fc0;
+  --chart-5: #96700a;
+  --chart-6: #b4235f;
+  --scroll-thumb: rgb(101 108 120 / 0.38);
+  --scroll-thumb-hover: rgb(101 108 120 / 0.65);
+}
+
+[data-theme="dark"] {
+  --bg: #0b0d10;
+  --surface: #111418;
+  --surface-2: #181c21;
+  --border: #22272e;
+  --border-strong: #2f3540;
+  --text: #e6e8eb;
+  --text-muted: #9aa3ae;
+  --text-subtle: #7d8693;
+  --accent: #2dd4bf;
+  --accent-fg: #04201b;
+  --accent-soft: rgb(45 212 191 / 0.12);
+  --success: #4ade80;
+  --success-soft: rgb(74 222 128 / 0.12);
+  --warning: #fbbf24;
+  --warning-soft: rgb(251 191 36 / 0.12);
+  --danger: #f87171;
+  --danger-soft: rgb(248 113 113 / 0.12);
+  --card-shadow: 0 0 #0000;
+  --chart-1: #2dd4bf;
+  --chart-2: #7c9cff;
+  --chart-3: #fb923c;
+  --chart-4: #c4a7ff;
+  --chart-5: #facc15;
+  --chart-6: #f472b6;
+  --scroll-thumb: rgb(125 134 147 / 0.32);
+  --scroll-thumb-hover: rgb(125 134 147 / 0.6);
+}
+
+/* Claude: warm ivory and charcoal, with a clay accent. */
+[data-palette="claude"] {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f0eee6;
+  --border: #e8e6dc;
+  --border-strong: #d3d0c3;
+  --text: #141413;
+  --text-muted: #5c5b55;
+  --text-subtle: #6a6962;
+  --accent: #a65234;
+  --accent-fg: #ffffff;
+  --accent-soft: rgb(166 82 52 / 0.1);
+  --success: #147c3b;
+  --success-soft: rgb(20 124 59 / 0.1);
+  --warning: #9b5e07;
+  --warning-soft: rgb(155 94 7 / 0.1);
+  --danger: #c2261d;
+  --danger-soft: rgb(194 38 29 / 0.08);
+  --card-shadow: 0 1px 2px rgb(20 20 19 / 0.05), 0 1px 1px rgb(20 20 19 / 0.03);
+  --chart-1: #a65234;
+  --chart-2: #3d6fa3;
+  --chart-3: #5f7a3a;
+  --chart-4: #7c5aa6;
+  --chart-5: #9a7010;
+  --chart-6: #a8386a;
+  --scroll-thumb: rgb(106 105 98 / 0.38);
+  --scroll-thumb-hover: rgb(106 105 98 / 0.65);
+}
+
+[data-palette="claude"][data-theme="dark"] {
+  --bg: #1f1e1d;
+  --surface: #262624;
+  --surface-2: #30302e;
+  --border: #3d3c38;
+  --border-strong: #54524b;
+  --text: #f0eee6;
+  --text-muted: #b0aea5;
+  --text-subtle: #9d9b91;
+  --accent: #dc8264;
+  --accent-fg: #1f1e1d;
+  --accent-soft: rgb(220 130 100 / 0.12);
+  --success: #4ade80;
+  --success-soft: rgb(74 222 128 / 0.12);
+  --warning: #fbbf24;
+  --warning-soft: rgb(251 191 36 / 0.12);
+  --danger: #f87171;
+  --danger-soft: rgb(248 113 113 / 0.12);
+  --card-shadow: 0 0 #0000;
+  --chart-1: #dc8264;
+  --chart-2: #7fa7d4;
+  --chart-3: #a3b97d;
+  --chart-4: #b79be0;
+  --chart-5: #e2c15a;
+  --chart-6: #e58aa8;
+  --scroll-thumb: rgb(157 155 145 / 0.32);
+  --scroll-thumb-hover: rgb(157 155 145 / 0.6);
+}
+
+/* ChatGPT: neutral grays on a white canvas (charcoal in dark), with a green accent. */
+[data-palette="chatgpt"] {
+  --bg: #ffffff;
+  --surface: #f9f9f9;
+  --surface-2: #efefef;
+  --border: #e3e3e3;
+  --border-strong: #cdcdcd;
+  --text: #0d0d0d;
+  --text-muted: #5d5d5d;
+  --text-subtle: #6b6b6b;
+  --accent: #0c795e;
+  --accent-fg: #ffffff;
+  --accent-soft: rgb(12 121 94 / 0.1);
+  --success: #147c3b;
+  --success-soft: rgb(20 124 59 / 0.1);
+  --warning: #9b5e07;
+  --warning-soft: rgb(155 94 7 / 0.1);
+  --danger: #c2261d;
+  --danger-soft: rgb(194 38 29 / 0.08);
+  --card-shadow: 0 0 #0000;
+  --chart-1: #0c795e;
+  --chart-2: #2d62d0;
+  --chart-3: #c2540a;
+  --chart-4: #7a3fc0;
+  --chart-5: #96700a;
+  --chart-6: #b4235f;
+  --scroll-thumb: rgb(107 107 107 / 0.38);
+  --scroll-thumb-hover: rgb(107 107 107 / 0.65);
+}
+
+[data-palette="chatgpt"][data-theme="dark"] {
+  --bg: #212121;
+  --surface: #171717;
+  --surface-2: #2f2f2f;
+  --border: #363636;
+  --border-strong: #4d4d4d;
+  --text: #ececec;
+  --text-muted: #b4b4b4;
+  --text-subtle: #9a9a9a;
+  --accent: #11ad87;
+  --accent-fg: #0d0d0d;
+  --accent-soft: rgb(17 173 135 / 0.12);
+  --success: #4ade80;
+  --success-soft: rgb(74 222 128 / 0.12);
+  --warning: #fbbf24;
+  --warning-soft: rgb(251 191 36 / 0.12);
+  --danger: #f87171;
+  --danger-soft: rgb(248 113 113 / 0.12);
+  --card-shadow: 0 0 #0000;
+  --chart-1: #11ad87;
+  --chart-2: #7c9cff;
+  --chart-3: #fb923c;
+  --chart-4: #c4a7ff;
+  --chart-5: #facc15;
+  --chart-6: #f472b6;
+  --scroll-thumb: rgb(154 154 154 / 0.32);
+  --scroll-thumb-hover: rgb(154 154 154 / 0.6);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--text);
+  --color-muted: var(--text-muted);
+  --color-subtle: var(--text-subtle);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+
+  --font-sans: "IBM Plex Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --shadow-card: var(--card-shadow);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+  html[data-theme="dark"] {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+    font-size: 14px;
+    line-height: 1.5;
+    /* The page itself never scrolls sideways; wide content (a table) scrolls inside its own box. */
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--accent-soft);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Scrollbars: thin, rounded and in the theme's colors, in every scrollable area. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) transparent;
+}
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+*::-webkit-scrollbar-track,
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-thumb);
+  background-clip: padding-box;
+  border: 3px solid transparent;
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scroll-thumb-hover);
+}
+*::-webkit-scrollbar-button {
+  display: none;
+}
+
+/*
+ * A loading indicator that stops looks like a frozen page. People who ask for less motion still
+ * need to see that something is happening, so spinners, pulses and the progress bar keep moving
+ * (slowly); everything decorative above stays still.
+ */
+@keyframes indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
+}
+.progress-indeterminate {
+  animation: indeterminate 1.4s ease-in-out infinite;
+}
+
+/* The thin bar under a pop-up that shows how long is left. It pauses while the pop-up is hovered
+   or focused. It is only a picture of the time: a timer in ToastViewport does the closing, so a
+   person who asked for less motion does not lose the pop-up. */
+@keyframes toast-countdown {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+/* The card a notification pointed at: a ring that fades out, so the eye finds it. */
+@keyframes deep-link-glow {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+  30% {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+.deep-link-glow {
+  border-radius: var(--radius-lg);
+  animation: deep-link-glow 2.4s ease-out 0.3s 2;
+}
+
+.toast-countdown {
+  transform-origin: left center;
+  animation-duration: var(--toast-ms, 6000ms);
+  animation-name: toast-countdown;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* A printed or saved-as-PDF answer: only the copy that printReport.ts lays out, on white. */
+#print-root {
+  display: none;
+}
+@media print {
+  @page {
+    margin: 14mm;
+  }
+  body.printing-report > #root {
+    display: none !important;
+  }
+  body.printing-report #print-root {
+    display: block;
+    background: #fff;
+    color: #15171a;
+    font-size: 13px;
+  }
+  #print-root .print-heading {
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #cfcfca;
+  }
+  #print-root .print-heading h1 {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  #print-root .print-heading p {
+    color: #555d68;
+    font-size: 12px;
+  }
+  #print-root figure,
+  #print-root table,
+  #print-root li {
+    break-inside: avoid;
+  }
+  #print-root .recharts-wrapper {
+    width: 100% !important;
+  }
+  #print-root svg.recharts-surface {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* The thinking eye: the iris looks left and right, and the lid blinks now and then. */
+@keyframes eye-look {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  22% {
+    transform: translateX(-2.4px);
+  }
+  58% {
+    transform: translateX(2.4px);
+  }
+  80% {
+    transform: translateX(0);
+  }
+}
+@keyframes eye-blink {
+  0%,
+  84%,
+  100% {
+    transform: scaleY(1);
+  }
+  91% {
+    transform: scaleY(0.1);
+  }
+}
+.eye-look {
+  animation: eye-look 3.6s ease-in-out infinite;
+}
+.eye-blink {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+  animation: eye-blink 3.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin {
+    animation-duration: 1.2s !important;
+    animation-iteration-count: infinite !important;
+  }
+  .animate-pulse {
+    animation-duration: 2s !important;
+    animation-iteration-count: infinite !important;
+  }
+  .progress-indeterminate {
+    animation-duration: 2.2s !important;
+    animation-iteration-count: infinite !important;
+  }
+  .toast-countdown {
+    animation-duration: var(--toast-ms, 6000ms) !important;
+  }
+  .eye-look,
+  .eye-blink {
+    animation-duration: 5s !important;
+    animation-iteration-count: infinite !important;
+  }
+}

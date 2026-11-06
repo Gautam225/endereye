@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Eye of Ender: ask questions about your data in plain English."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Eye of Ender</title>
+    <script>
+      // Apply the saved mode and color template before the first paint, so there is no flash.
+      (function () {
+        var theme = "dark";
+        var palette = "default";
+        try {
+          var saved = localStorage.getItem("eoe-theme");
+          var system = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          theme = saved === "light" || saved === "dark" ? saved : system;
+          var template = localStorage.getItem("eoe-palette");
+          if (template === "claude" || template === "chatgpt") palette = template;
+        } catch (e) {}
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.palette = palette;
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
